@@ -751,6 +751,7 @@ class Tool
                         (strlen(trim($this->messageParameters['accept_presentation_document_targets'])) > 0)) {
                         $documentTargets = array_filter(explode(',',
                                 str_replace(' ', '', $this->messageParameters['accept_presentation_document_targets'])), 'strlen');
+                        $documentTargets = array_map('strtolower',$documentTargets); // some systems send the values in all-caps
                         $documentTargets = array_unique($documentTargets);
                         $this->ok = count($documentTargets) > 0;
                         if (!$this->ok) {
@@ -872,7 +873,7 @@ class Tool
                             'Invalid value for can_confirm parameter: %s.');
                     }
                 } elseif (isset($this->messageParameters['launch_presentation_document_target'])) {
-                    $this->ok = $this->checkValue($this->messageParameters['launch_presentation_document_target'],
+                    $this->ok = $this->checkValue(strtolower($this->messageParameters['launch_presentation_document_target']),
                         array('embed', 'frame', 'iframe', 'window', 'popup', 'overlay'),
                         'Invalid value for launch_presentation_document_target parameter: %s.');
                 }
